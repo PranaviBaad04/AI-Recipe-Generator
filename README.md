@@ -26,6 +26,21 @@ An AI-powered Recipe Generator built with **React.js** that creates delicious re
 - Express.js
 - Groq API
 
+## 📸 Screenshots
+
+### Home Page
+
+![Home Page](./screenshots/home.png)
+
+---
+
+### Generated Recipe
+
+![Generated Recipe](./screenshots/generating.png)
+
+
+
+![Recipe](./screenshots/recipe.png)
 
 ## 👩‍💻 Author
 
