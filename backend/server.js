@@ -3,18 +3,30 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import recipeRoutes from "./routes/recipe.js"
+import { init } from "confident-trace";
+import recipeRoutes from "./routes/recipe.js";
 
+const tracing = init();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/recipe", recipeRoutes);
 
-console.log("Groq Key : ", process.env.GROQ_API_KEY );
-app.use("/api/recipe", recipeRoutes)
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
 
- const PORT = process.env.PORT
-app.listen(PORT,()=>{
-    console.log(`Backend running on port ${PORT} `)
-})
+const shutdown = async () => {
+  await new Promise((resolve) => server.close(resolve));
+  await tracing.shutdown();
+};
+
+process.on("SIGINT", () => {
+  void shutdown();
+});
+process.on("SIGTERM", () => {
+  void shutdown();
+});
